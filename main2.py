@@ -1,3 +1,4 @@
+import os
 from playwright.sync_api import sync_playwright
 
 def toggle_mobile_data(action):
@@ -12,7 +13,7 @@ def toggle_mobile_data(action):
 toggle_mobile_data('open')
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True)  # headless=False ile tarayıcıyı grafik arayüzüyle başlat
+    browser = p.chromium.launch(headless=False)  # headless=False ile tarayıcıyı grafik arayüzüyle başlat
     page = browser.new_page()
     page.goto('https://www.ipaddress.my/?lang=tr')
     print(page.title())
