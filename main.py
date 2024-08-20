@@ -1,4 +1,5 @@
 import os
+from playwright.sync_api import sync_playwright
 
 def toggle_mobile_data(action):
     if action == 'open':
@@ -10,6 +11,13 @@ def toggle_mobile_data(action):
 
 # Mobil veriyi açmak için:
 toggle_mobile_data('open')
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto('https://example.com')
+    print(page.title())
+    browser.close()
 
 # Mobil veriyi kapatmak için:
 toggle_mobile_data('close')
