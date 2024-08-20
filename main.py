@@ -1,4 +1,6 @@
-from playwright.sync_api import sync_playwright
+import os
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 def toggle_mobile_data(action):
     if action == 'open':
@@ -11,12 +13,22 @@ def toggle_mobile_data(action):
 # Mobil veriyi açmak için:
 toggle_mobile_data('open')
 
-with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True)  # headless=False ile tarayıcıyı grafik arayüzüyle başlat
-    page = browser.new_page()
-    page.goto('https://www.ipaddress.my/?lang=tr')
-    print(page.title())
-    browser.close()
+# Selenium için Chrome ayarları
+chrome_options = Options()
+chrome_options.add_argument('--headless')  # Termux'ta genellikle tarayıcıyı headless modda çalıştırmanız gerekecek.
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
+
+# ChromeDriver ile tarayıcı başlatma
+driver = webdriver.Chrome(options=chrome_options)
+
+# Web sayfasına gitme
+driver.get('https://www.ipaddress.my/?lang=tr')
+print(driver.title())
+
+# Tarayıcıyı kapatma
+driver.quit()
 
 # Mobil veriyi kapatmak için:
 toggle_mobile_data('close')
+
